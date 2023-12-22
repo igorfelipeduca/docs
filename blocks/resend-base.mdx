@@ -1,8 +1,10 @@
 ---
-title: 'Resend + Next 14' 
+title: 'Resend + NodeJs' 
 description: 'Resend + Next.JS 14 API base implementation'
 icon: 'atom'
 ---
+
+# Resend + NextJs 14 API
 
 ```ts index.ts
 import { NextResponse } from "next/server";
@@ -37,4 +39,31 @@ export async function POST(request: Request) {
       NextResponse.json({ status: "Internal error", error: error }, { status: 500 })
     );
 }
+```
+
+# Resend + NodeJS (usually for back-end applications)
+
+
+```ts index.ts
+import { Resend } from 'resend';
+const resend = new Resend('re_123456789');
+
+await resend.emails.send({
+  from: 'you@example.com',
+  to: 'user@gmail.com',
+  subject: 'hello world',
+  text: 'it works!',
+});
+```
+
+# Resend + NodeJS + HTML
+
+
+```ts index.ts 
+await resend.emails.send({
+  from: 'you@example.com',
+  to: 'user@gmail.com',
+  subject: 'hello world',
+  html: '<strong>it works!</strong>',
+});
 ```
