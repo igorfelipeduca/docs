@@ -1,0 +1,57 @@
+---
+title: 'Zod Base Validation'
+description: 'Base Zod + React validation snippet.'
+icon: 'atom'
+---
+
+
+```tsx index.tsx
+const schema = z
+  .object({
+    name: z.string().min(1, { message: "You must say me your name" }),
+    email: z.string().email({ message: "This email is invalid" }),
+    password: z.string(),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
+
+export default function BaseZod() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
+  });
+
+  const onSubmit: SubmitHandler<z.infer<typeof schema>> = async (formData) => {
+    console.log({formData})
+  }
+
+return (
+  <form>
+    <input {...register("name")} />
+    {errors.name && <p>{errors.name.message}</p>}
+    
+    <input {...register("email")} />
+    {errors.email && <p>{errors.email.message}</p>}
+    
+    <input {...register("password")} />
+    {errors.password && <p>{errors.password.message}</p>}
+    
+    <input {...register("confirmPassword")} />
+    {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
+    
+    <button type="submit" onClick={handleSubmit(onSubmit)}>
+      Submit
+    </button>
+  </form>
+)
+```
+
+# Learn more
+
+For more examples or other implementations check out the [official documentation](https://github.com/react-hook-form/resolvers?tab=readme-ov-file#zod)
