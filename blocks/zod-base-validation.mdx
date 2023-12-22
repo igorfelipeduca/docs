@@ -6,6 +6,10 @@ icon: 'atom'
 
 
 ```tsx index.tsx
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
 const schema = z
   .object({
     name: z.string().min(1, { message: "You must say me your name" }),
