@@ -36,7 +36,7 @@ export default function BaseZod() {
   }
 
 return (
-  <form>
+  <form onSubmit={handleSubmit(onSubmit)}>
     <input {...register("name")} />
     {errors.name && <p>{errors.name.message}</p>}
     
