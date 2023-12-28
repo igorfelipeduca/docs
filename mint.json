@@ -42,7 +42,8 @@
       "pages": [
         "blocks/zod-base-validation",
         "blocks/resend-base",
-        "blocks/games-api"
+        "blocks/games-api",
+        "blocks/swiftui-foreach"
       ]
     }
   ],

@@ -1,0 +1,55 @@
+---
+title: 'Swift ForEach snippet'
+description: 'SwiftUI snippet that generates multiple Text() components based on the items in an array.'
+icon: 'code'
+---
+
+### Base ForEach generation
+```swift SomeView.swift
+import SwiftUI
+
+struct SomeView: View {
+    @State private var someArray: [String] = ["Igor"] 
+
+    var body: some View {
+        ForEach(someArray, id: \.self) { item in
+            HStack {
+                Text("\(item)")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+            }
+        }
+    }
+}
+
+#Preview {
+    SomeView()
+}
+```
+
+### ForEach snippet + Delete item
+
+```swift SomeView.swift
+import SwiftUI
+
+struct SomeView: View {
+    @State private var someArray: [String] = ["Igor"] 
+
+    var body: some View {
+        ForEach(someArray, id: \.self) { item in
+            HStack {
+                Text("\(item)")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .onTapGesture {
+                        someArray.remove(at: someArray.firstIndex(of: person ) ?? 0)
+                    }
+            }
+        }
+    }
+}
+
+#Preview {
+    SomeView()
+}
+```
