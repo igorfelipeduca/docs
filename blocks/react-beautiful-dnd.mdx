@@ -1,0 +1,44 @@
+---
+title: 'React DnD - Drag and Drop'
+description: 'Base repository to implement drag and drop in React using React DnD'
+icon: 'code'
+---
+
+This block was created in order to store the repository I created to serve as a template for implementing drag and drop in React using React DnD.
+
+## Sample code
+
+```tsx dnd.tsx
+<DragDropContext onDragEnd={onDragEnd}>
+  <Droppable droppableId={"droppable"} direction="horizontal">
+    {(provided, snapshot) => (
+      <div
+        ref={provided.innerRef}
+        style={getListStyle(snapshot.isDraggingOver)}
+        {...provided.droppableProps}
+      >
+        {stateItems.map((item: Item, index: number) => (
+          <Draggable key={item.id} draggableId={item.id} index={index}>
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                style={getItemStyle(
+                  snapshot.isDragging,
+                  provided.draggableProps.style
+                )}
+              >
+                {item.content}
+              </div>
+            )}
+          </Draggable>
+        ))}
+        {provided.placeholder}
+      </div>
+    )}
+  </Droppable>
+</DragDropContext>;
+```
+
+See the complete code in Github [here](https://github.com/igorfelipeduca/react-beautiful-dnd-demo)
