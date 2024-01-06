@@ -43,7 +43,9 @@
         "blocks/zod-base-validation",
         "blocks/resend-base",
         "blocks/games-api",
-        "blocks/swiftui-foreach"
+        "blocks/swiftui-foreach",
+        "blocks/nest-rest-cli",
+        "blocks/stripe-split-payment"
       ]
     }
   ],

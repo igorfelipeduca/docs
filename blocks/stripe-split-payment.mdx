@@ -1,0 +1,103 @@
+---
+title: 'NextJs 13 API + Stripe - Split Payments'
+description: 'Stripe split payments snippet using NexjJs 13 API routes.'
+icon: 'code'
+---
+
+This code snippet is divided in two parts: The first file is responsible for creating the product and price in Stripe, and the second file is responsible for creating the split payment session.
+
+## Pre-made function to create products and prices using Stripe API
+```ts createProductAndPrice.ts
+import Stripe from "stripe";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+  apiVersion: "2023-08-16",
+});
+
+export const createProductAndPrice = async (
+  projectPrice: number,
+  projectName: string,
+  image: string,
+  description: string
+) => {
+  const product = await stripe.products.create({
+    name: projectName,
+    images: [image],
+    description,
+    unit_label: "projeto",
+  });
+
+  const price = await stripe.prices.create({
+    currency: "brl",
+    unit_amount: projectPrice * 100,
+    product: product.id,
+  });
+
+  return { product, price };
+};
+```
+
+## Route to create the split payment 
+
+```ts route.ts
+import Stripe from "stripe";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+  apiVersion: "2023-08-16",
+});
+
+import { NextRequest, NextResponse } from "next/server";
+import { createProductAndPrice } from "@/app/project/components/PurchaseMethods/utils/stripe/createProductAndPrice";
+
+interface Payload {
+  name: string;
+  icon: string;
+  description: string;
+  price: number;
+  connectedStripeAccount: string;
+  project_id: string;
+}
+
+export async function POST(req: NextRequest) {
+  const body = (await req.json()) as Payload;
+
+  const purchaseAmountInCents = body.price ? Number(body.price) * 100 : 0;
+
+  const productAndPrice = await createProductAndPrice(
+    body.price,
+    body.name,
+    body.icon,
+    body.description ?? "Projeto sem descrição"
+  );
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price: productAndPrice.price.id,
+          quantity: 1,
+        },
+      ],
+      payment_intent_data: {
+        transfer_data: {
+          destination: body.connectedStripeAccount,
+          amount: (purchaseAmountInCents * 50) / 100, // This will create a 50/50 split payment
+        },
+      },
+      mode: "payment",
+      success_url: `${req.headers.get("origin")}/checkout/success?project=${
+        body.project_id
+      }`,
+      cancel_url: `${req.headers.get("origin")}/`,
+    });
+
+    return NextResponse.json({ sessionId: session.id }, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return new Response("Error while creating the split payment intent.", {
+      status: 500,
+    });
+  }
+}
+```
