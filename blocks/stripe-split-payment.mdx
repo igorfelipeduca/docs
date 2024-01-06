@@ -39,6 +39,18 @@ export const createProductAndPrice = async (
 
 ## Route to create the split payment 
 
+The code below must receive a JSON with the following structure:
+```json
+{
+  "name": "Project Name",
+  "icon": "Project Image",
+  "description": "Project Description",
+  "price": 1000, // This price MUST be in cents.
+  "connectedStripeAccount": "Stripe Connected Account ID", // Check out the Stripe Connect documentation to understand what is a connected account: https://stripe.com/docs/connect/collect-then-transfer-guide?platform=web
+  "project_id": "Project ID"
+}
+```
+
 ```ts route.ts
 import Stripe from "stripe";
 
@@ -67,7 +79,7 @@ export async function POST(req: NextRequest) {
     body.price,
     body.name,
     body.icon,
-    body.description ?? "Projeto sem descrição"
+    body.description ?? "This product does not have a description."
   );
 
   try {
