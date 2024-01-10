@@ -46,7 +46,8 @@
         "blocks/swiftui-foreach",
         "blocks/nest-rest-cli",
         "blocks/stripe-split-payment",
-        "blocks/react-beautiful-dnd"
+        "blocks/react-beautiful-dnd",
+        "blocks/next-opengraph"
       ]
     }
   ],
