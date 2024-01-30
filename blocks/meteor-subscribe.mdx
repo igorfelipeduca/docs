@@ -1,0 +1,48 @@
+---
+title: 'Meteor Subscribe with useTracker()'
+description: 'Sample code that uses useTracker in order to subscribe and read the pointers of a published colletion on Meteor.'
+icon: 'code'
+---
+
+# Meteor React
+
+Check out the [Meteor React](https://www.meteor.com/tutorials/react/creating-an-app) tutorial.
+
+# Publishing the collection
+```javascript
+Meteor.publish('users', function() {
+    return Users.find();
+});
+```
+
+In order to access a collection on the client side, you need to publish it on the server side. This is done by adding a publication to the server/main.js file. In this case, we are publishing the Users collection.
+
+# Reading the collection
+```javascript
+const { users, isLoading } = useTracker(() => {
+    const noDataAvailable = { users: [] };
+
+    const handler = Meteor.subscribe('users');
+
+    if (!handler.ready()) {
+      return { ...noDataAvailable, isLoading: true };
+    }
+
+    const users = Users.find();
+
+    return { users };
+});
+
+
+return (
+    <div>
+      <ul>
+        {users.map((users, index) => (
+          <li key={users.id}>{users.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+```
+
+

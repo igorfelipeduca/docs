@@ -47,7 +47,8 @@
         "blocks/nest-rest-cli",
         "blocks/stripe-split-payment",
         "blocks/react-beautiful-dnd",
-        "blocks/next-opengraph"
+        "blocks/next-opengraph",
+        "blocks/meteor-subscribe"
       ]
     }
   ],
