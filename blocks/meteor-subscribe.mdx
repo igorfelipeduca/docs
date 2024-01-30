@@ -19,7 +19,11 @@ In order to access a collection on the client side, you need to publish it on th
 
 # Reading the collection
 ```javascript
-const { users, isLoading } = useTracker(() => {
+import React from 'react';
+import { useTracker } from 'meteor/react-meteor-data';
+
+export const UsersComponent = () => {
+  const { users, isLoading } = useTracker(() => {
     const noDataAvailable = { users: [] };
 
     const handler = Meteor.subscribe('users');
@@ -28,21 +32,26 @@ const { users, isLoading } = useTracker(() => {
       return { ...noDataAvailable, isLoading: true };
     }
 
-    const users = Users.find();
+    const users = Users.find().fetch();
 
     return { users };
-});
+  });
 
-
-return (
+  return (
     <div>
-      <ul>
-        {users.map((users, index) => (
-          <li key={users.id}>{users.name}</li>
-        ))}
-      </ul>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <ul>
+          {users.map((user, index) => (
+            <li key={user._id}>{user.name}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
+};
+
 ```
 
 
