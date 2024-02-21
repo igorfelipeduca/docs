@@ -48,7 +48,8 @@
         "blocks/stripe-split-payment",
         "blocks/react-beautiful-dnd",
         "blocks/next-opengraph",
-        "blocks/meteor-subscribe"
+        "blocks/meteor-subscribe",
+        "blocks/instagram-fetch-script"
       ]
     }
   ],

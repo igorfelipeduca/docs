@@ -1,0 +1,26 @@
+---
+title: "Instagram Feed Fetch Script"
+description: "A script that once ran, fetches the latest posts from an Instagram account and saves them to a JSON file."
+icon: "code"
+---
+
+# Instagram Feed Fetch Script
+
+## This should be ran in a browser
+
+This script fetches the latest posts from an Instagram account and saves them to a JSON file. It uses the Instagram Basic Display API to fetch the posts and the `fs` module to save them to a JSON file.
+
+```javascript
+let imageUrls = Array.from(
+  document.querySelectorAll("._aagv img"),
+  (img) => img.src
+);
+```
+
+After that, you can go ahead and run
+
+```javascript
+console.log({ imageUrls });
+```
+
+in order to see the image URLs in the console.
