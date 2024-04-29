@@ -1,0 +1,22 @@
+---
+title: "Read from everywhere - AWS S3"
+description: "Learn how to create a S3 bucket policy to allow public read access to your files."
+icon: "s3"
+---
+
+To allow public read access to your files in a S3 bucket, you can create a bucket policy that allows the `s3:GetObject` action on all files in the bucket.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicReadGetObject",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": ["s3:GetObject"],
+      "Resource": ["arn:aws:s3:::Bucket-Name/*"]
+    }
+  ]
+}
+```

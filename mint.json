@@ -49,7 +49,8 @@
         "blocks/react-beautiful-dnd",
         "blocks/next-opengraph",
         "blocks/meteor-subscribe",
-        "blocks/instagram-fetch-script"
+        "blocks/instagram-fetch-script",
+        "blocks/s3-bucket-policy"
       ]
     }
   ],
